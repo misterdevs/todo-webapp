@@ -30,14 +30,14 @@
         <label class="text-sm font-light">Todo Name</label>
         <input
           v-model="formTodo.taskName"
-          class="w-full p-1 border-0 border-b-2 focus:outline-none bg-gray-100 dark:bg-gray-900 dark:border-gray-500"
+          class="w-full p-1 border-0 border-b focus:outline-none bg-transparent dark:border-gray-500"
         />
       </div>
       <div class="flex-row mb-2">
         <label class="text-sm font-light">Description</label>
         <textarea
           v-model="formTodo.description"
-          class="w-full p-1 border-0 border-b-2 focus:outline-none bg-gray-100 dark:bg-gray-900 dark:border-gray-500"
+          class="w-full p-1 border-0 border-b focus:outline-none bg-transparent dark:border-gray-500"
         ></textarea>
       </div>
       <div class="flex space-x-4 mb-2">
@@ -46,7 +46,7 @@
           <input
             v-model="formTodo.date"
             type="date"
-            class="w-full p-1 border-0 border-b-2 focus:outline-none bg-gray-100 dark:bg-gray-900 dark:border-gray-500"
+            class="w-full p-1 border-0 border-b focus:outline-none bg-transparent dark:border-gray-500"
           />
         </div>
         <div class="flex-row w-1/3">
@@ -54,7 +54,7 @@
           <input
             v-model="formTodo.time"
             type="time"
-            class="w-full p-1 border-0 border-b-2 focus:outline-none bg-gray-100 dark:bg-gray-900 dark:border-gray-500"
+            class="w-full p-1 border-0 border-b focus:outline-none bg-transparent dark:border-gray-500"
           />
         </div>
       </div>
@@ -62,7 +62,7 @@
         <label class="text-sm font-light">Place</label>
         <input
           v-model="formTodo.place"
-          class="w-full p-1 border-0 border-b-2 focus:outline-none bg-gray-100 dark:bg-gray-900 dark:border-gray-500"
+          class="w-full p-1 border-0 border-b focus:outline-none bg-transparent dark:border-gray-500"
         />
       </div>
 

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex-row justify-center items-center text-gray-500 max-w-xl space-y-10 mx-auto"
+    class="flex-row justify-center items-center text-gray-500 max-w-xl space-y-12 mx-auto"
   >
     <div class="flex-row justify-center items-center text-center">
       <h1 class="text-3xl font-bold text-gray-600">TODO WEBAPP</h1>
@@ -12,8 +12,30 @@
 
     <div class="flex-row max-w-md w-full mx-auto">
       <div class="flex w-full max-w-md justify-between items-center mb-5">
-        <div>
-          <span class="font-bold">Todo List</span>
+        <div class="flex space-x-2 items-center">
+          <!-- <div>
+            <span class="font-bold">Todo List</span>
+          </div> -->
+          <div class="flex items-center space-x-2">
+            <input
+              v-model="filterQuery"
+              placeholder="Search"
+              class="w-1/2 p-1 border-0 border-b dark:border-gray-500 bg-transparent focus:outline-none placeholder:text-gray-500"
+              @input="filter"
+            />
+            <select
+              v-model="sortOrder"
+              class="p-1 border-0 rounded-xl bg-transparent focus:outline-none"
+              @change="sort"
+            >
+              <option value="">Sort by</option>
+              <option value="taskName">Title</option>
+              <option value="date">Date</option>
+            </select>
+            <button @click="toggleSortDirection">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </button>
+          </div>
         </div>
         <button
           class="flex justify-center font-semibold items-center space-x-1 bg-opacity-80 py-1 px-2 rounded-xl border border-gray-500 hover:border-blue-500 hover:text-blue-500"
@@ -38,10 +60,10 @@
       </div>
       <div v-for="(todo, index) in todos" :key="index">
         <button
-          class="flex w-full px-3 md:px-6 py-4 bg-white dark:bg-gray-800 rounded-2xl mb-5 space-x-2"
+          class="flex w-full px-3 md:px-6 py-4 bg-white dark:bg-gray-800 rounded-2xl mb-5"
         >
           <div class="flex w-full justify-between items-center">
-            <div class="flex">
+            <div class="flex pr-2">
               <input
                 type="checkbox"
                 class="h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-200 dark:border-gray-500 checked:border-0 checked:bg-gray-900 dark:checked:bg-gray-500"
@@ -50,7 +72,7 @@
               />
             </div>
             <div
-              class="flex-row justify-start items-start text-start w-9/12 sm:w-10/12"
+              class="flex-row justify-start items-start text-start w-10/12"
               @click="editMode(index)"
             >
               <h1 class="font-semibold">{{ todo.taskName }}</h1>
@@ -62,7 +84,7 @@
               >
                 <span v-if="todo.place">{{ todo.place }},</span>
                 <span v-if="todo.date"> {{ todo.date }}</span>
-                <span v-if="todo.place">{{ todo.time }}</span>
+                <span v-if="todo.time">{{ todo.time }}</span>
               </div>
               <div
                 v-if="todo.place || todo.date || todo.time"
@@ -184,6 +206,41 @@
     </div>
   </div>
 </template>
+<script setup>
+import { watchEffect } from 'vue'
+watchEffect(() => {
+  Boolean(JSON.parse(localStorage.getItem('todos'))) === false &&
+    localStorage.setItem(
+      'todos',
+      JSON.stringify([
+        {
+          taskName: 'Technical Test TODO',
+          description: 'Membangun WebApp TODO menggunakan Vue.js',
+          date: '2024-05-28',
+          time: '06:52',
+          place: 'Cirebon',
+          isDone: false,
+        },
+        {
+          taskName: 'B Technical Test TODO',
+          description: 'Ini contoh view jika tidak ada date, time dan place',
+          date: '',
+          time: '',
+          place: '',
+          isDone: true,
+        },
+        {
+          taskName: 'C Technical Test TODO',
+          description: 'Ini contoh view jika tidak ada place',
+          date: '2024-06-08',
+          time: '06:55',
+          place: '',
+          isDone: false,
+        },
+      ])
+    )
+}, [])
+</script>
 
 <script>
 export default {
@@ -197,28 +254,23 @@ export default {
         place: '',
         isDone: false,
       },
-      todos: JSON.parse(localStorage.getItem('todos')) || [],
+      todos: JSON.parse(localStorage.getItem('todos')),
       editingIndex: null,
       showPopup: null,
       popupMode: {
         Add: 'add',
         Edit: 'edit',
       },
-      defaultTodo: {
-        taskName: '',
-        description: '',
-        date: '',
-        time: '',
-        place: '',
-        isDone: false,
-      },
+      filterQuery: '',
+      sortOrder: '',
+      sortDirection: 'asc',
     }
   },
   methods: {
     addTodo() {
       if (this.formTodo.taskName.trim()) {
         this.todos.push({ ...this.formTodo })
-        this.formTodo = { ...this.defaultTodo }
+        this.resetFormTodo()
         this.saveTodos()
         this.closePopup()
       }
@@ -234,33 +286,72 @@ export default {
       this.todos.splice(index, 1)
       this.saveTodos()
     },
-    editMode(index) {
-      this.editingIndex = index
-      this.formTodo = { ...this.todos[index] }
-      this.openPopup(this.popupMode.Edit)
-    },
+
     setIsDone(index) {
       this.formTodo = { ...this.todos[index] }
       this.formTodo.isDone = !this.formTodo.isDone
       this.$set(this.todos, index, this.formTodo)
       this.saveTodos()
-      this.formTodo = { ...this.defaultTodo }
+      this.resetFormTodo()
+    },
+    saveTodos() {
+      localStorage.setItem('todos', JSON.stringify(this.todos))
+    },
+    editMode(index) {
+      this.editingIndex = index
+      this.formTodo = { ...this.todos[index] }
+      this.openPopup(this.popupMode.Edit)
     },
     openPopup(popupMode) {
       this.showPopup = popupMode
     },
     closePopup() {
       this.showPopup = null
-      this.formTodo = { ...this.defaultTodo }
+      this.resetFormTodo()
+    },
+    sort() {
+      if (this.sortOrder.trim()) {
+        this.todos = this.todos.sort((a, b) =>
+          a[this.sortOrder] > b[this.sortOrder] && this.sortDirection === 'asc'
+            ? 1
+            : -1
+        )
+      } else {
+        this.resetFilter()
+      }
     },
     filter() {
-      // this.todos.filter((t)=>t.is[]
+      if (this.filterQuery.trim()) {
+        console.log(this.filterQuery)
+        const getTodos = JSON.parse(localStorage.getItem('todos'))
+        this.todos = getTodos.filter(
+          (a) =>
+            a.taskName.toLowerCase().includes(this.filterQuery.toLowerCase()) ||
+            a.description
+              .toLowerCase()
+              .includes(this.filterQuery.toLowerCase()) ||
+            a.place.toLowerCase().includes(this.filterQuery.toLowerCase())
+        )
+      } else {
+        this.resetFilter()
+      }
+    },
+    toggleSortDirection() {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc'
+      this.sort()
+    },
+    resetFormTodo() {
+      this.formTodo = {
+        taskName: '',
+        description: '',
+        date: '',
+        time: '',
+        place: '',
+        isDone: false,
+      }
     },
     resetFilter() {
       this.todos = JSON.parse(localStorage.getItem('todos'))
-    },
-    saveTodos() {
-      localStorage.setItem('todos', JSON.stringify(this.todos))
     },
   },
 }
