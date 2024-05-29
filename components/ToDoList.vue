@@ -12,30 +12,25 @@
 
     <div class="flex-row max-w-md w-full mx-auto">
       <div class="flex w-full max-w-md justify-between items-center mb-5">
-        <div class="flex space-x-2 items-center">
-          <!-- <div>
-            <span class="font-bold">Todo List</span>
-          </div> -->
-          <div class="flex items-center space-x-2">
-            <input
-              v-model="filterQuery"
-              placeholder="Search"
-              class="w-1/2 p-1 border-0 border-b dark:border-gray-500 bg-transparent focus:outline-none placeholder:text-gray-500"
-              @input="filter"
-            />
-            <select
-              v-model="sortOrder"
-              class="p-1 border-0 rounded-xl bg-transparent focus:outline-none"
-              @change="sort"
-            >
-              <option value="">Sort by</option>
-              <option value="taskName">Title</option>
-              <option value="date">Date</option>
-            </select>
-            <button @click="toggleSortDirection">
-              {{ sortDirection === 'asc' ? '↑' : '↓' }}
-            </button>
-          </div>
+        <div class="flex items-center space-x-0 sm:space-x-2">
+          <input
+            v-model="filterQuery"
+            placeholder="Search"
+            class="w-20 sm:w-1/2 p-1 border-0 border-b dark:border-gray-500 bg-transparent focus:outline-none placeholder:text-gray-500"
+            @input="filter"
+          />
+          <select
+            v-model="sortOrder"
+            class="p-1 border-0 rounded-xl bg-transparent focus:outline-none"
+            @change="sort"
+          >
+            <option value="">Sort by</option>
+            <option value="taskName">Title</option>
+            <option value="date">Date</option>
+          </select>
+          <button @click="toggleSortDirection">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}
+          </button>
         </div>
         <button
           class="flex justify-center font-semibold items-center space-x-1 bg-opacity-80 py-1 px-2 rounded-xl border border-gray-500 hover:border-blue-500 hover:text-blue-500"
