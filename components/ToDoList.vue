@@ -12,7 +12,7 @@
 
     <div class="flex-row max-w-md w-full mx-auto">
       <div class="flex w-full max-w-md justify-between items-center mb-5">
-        <div class="flex items-center space-x-0 sm:space-x-2">
+        <div class="flex items-center space-x-3 sm:space-x-4">
           <input
             v-model="filterQuery"
             placeholder="Search"
