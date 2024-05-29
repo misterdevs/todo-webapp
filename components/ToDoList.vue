@@ -317,7 +317,6 @@ export default {
     },
     filter() {
       if (this.filterQuery.trim()) {
-        console.log(this.filterQuery)
         const getTodos = JSON.parse(localStorage.getItem('todos'))
         this.todos = getTodos.filter(
           (a) =>
