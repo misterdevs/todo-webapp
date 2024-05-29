@@ -16,7 +16,7 @@
           <input
             v-model="filterQuery"
             placeholder="Search"
-            class="w-20 sm:w-1/2 p-1 border-0 border-b dark:border-gray-500 bg-transparent focus:outline-none placeholder:text-gray-500"
+            class="sm:w-1/2 w-24 p-1 border-0 border-b dark:border-gray-500 bg-transparent focus:outline-none placeholder:text-gray-500"
             @input="filter"
           />
           <select
