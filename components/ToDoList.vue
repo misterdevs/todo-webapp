@@ -209,7 +209,7 @@ watchEffect(() => {
       'todos',
       JSON.stringify([
         {
-          taskName: 'Technical Test TODO',
+          taskName: 'TODO',
           description: 'Membangun WebApp TODO menggunakan Vue.js',
           date: '2024-05-28',
           time: '06:52',
@@ -217,7 +217,7 @@ watchEffect(() => {
           isDone: false,
         },
         {
-          taskName: 'B Technical Test TODO',
+          taskName: 'B TODO',
           description: 'Ini contoh view jika tidak ada date, time dan place',
           date: '',
           time: '',
@@ -225,7 +225,7 @@ watchEffect(() => {
           isDone: true,
         },
         {
-          taskName: 'C Technical Test TODO',
+          taskName: 'C TODO',
           description: 'Ini contoh view jika tidak ada place',
           date: '2024-06-08',
           time: '06:55',
